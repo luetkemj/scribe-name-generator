@@ -1,0 +1,47 @@
+{
+  "name": "scribe-name-generator",
+  "version": "1.0.0",
+  "description": "Name generator powered by Markov chains",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luetkemj/scribe-name-generator.git"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "clean:build": "rimraf build && rimraf public",
+    "clean:node_modules": "rimraf node_modules",
+    "clean": "npm run clean:build && npm run clean:node_modules",
+    "reinstall": "npm run clean && npm install",
+    "lint:eslint": "eslint .",
+    "lint": "npm run lint:eslint",
+    "build": "npm run lint && npm run clean:build",
+    "production-build": "npm run build && npm run clean:node_modules && npm install --production",
+    "production": "NODE_ENV=production node ./build/index.js",
+    "test:mocha": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive test/**",
+    "test:watch": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive --watch test/**",
+    "test": "npm run lint && npm run test:mocha"
+  },
+  "dependencies": {
+    "debug-caller": "2.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.11.4",
+    "babel-eslint": "6.1.2",
+    "babel-loader": "6.2.4",
+    "babel-plugin-transform-strict-mode": "6.11.3",
+    "babel-preset-es2015": "6.13.2",
+    "babel-preset-stage-0": "6.5.0",
+    "eslint": "3.2.2",
+    "eslint-config-airbnb": "10.0.0",
+    "eslint-loader": "1.5.0",
+    "eslint-plugin-import": "1.12.0",
+    "eslint-plugin-jsx-a11y": "2.0.1",
+    "eslint-plugin-react": "6.0.0",
+    "mocha": "3.0.1",
+    "rimraf": "2.5.4",
+    "should": "10.0.0",
+    "webpack": "1.13.1"
+  },
+  "author": "luetkemj",
+  "license": "WTFPL"
+}
