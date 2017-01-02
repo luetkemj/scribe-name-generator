@@ -85,9 +85,6 @@ describe('generateNames', () => {
     'joan',
   ];
   it('should work', () => {
-    const expected = '';
-    const actual = markov.generateNames(LIST, 10);
-
-    should(actual).equal(expected);
+    should(markov.generateNames(LIST, 10).length).equal(10);
   });
 });

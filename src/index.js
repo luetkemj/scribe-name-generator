@@ -5,8 +5,8 @@ import * as _ from 'lodash';
  * array of weights for each token to use in randomly selecting token
  * based on probability it would appear
  *
- * @param  {[object]} matrix
- * @return {[object]}
+ * @param  {object} matrix
+ * @return {object}
  */
 export function generateWeightedMatrix(matrix) {
   const weightedMatrix = {};
@@ -43,8 +43,8 @@ export function generateWeightedMatrix(matrix) {
  *   n: {a: 2}
  * }
  *
- * @param  {[array]} array [an array of strings to build our matrix from]
- * @return {[object]}
+ * @param  {array} array [an array of strings to build our matrix from]
+ * @return {object}
  */
 export function buildMatrix(array) {
   const matrix = {
@@ -93,10 +93,10 @@ export function buildMatrix(array) {
  * Returns first token in tokens whose index matches first weight in weights
  * that is less than or equal to integer
  *
- * @param  {[object]} row      contains 2 corresponding arrays;
+ * @param  {object} row      contains 2 corresponding arrays;
  *                             tokens [strings] and weights [numbers]
- * @param  {[Number]} integer  [Random integer between 0 and largest weight in weights]
- * @return {[String]}
+ * @param  {Number} integer  [Random integer between 0 and largest weight in weights]
+ * @return {String}
  */
 export function getToken(row, integer) {
   const index = _.findIndex(row.weights, o => integer <= o);
@@ -104,32 +104,48 @@ export function getToken(row, integer) {
   return row.tokens[index];
 }
 
-// export function walkMatrix(matrix, length) {
-//   const seedToken = _.sample(matrix.meta.firstLetters);
-//   const name = [seedToken];
-//   const row = matrix.chain[seedToken];
-// }
-
+/**
+ * Generate a name from our weighted matrix
+ * @param  {Object} matrix [fully built and weighted matrix]
+ * @param  {Number} length [max possible length of the retrurned name]
+ * @return {String}        [a name]
+ */
 export function walkWeightedMatrix(matrix, length) {
   // grab a random seedToken from our firstLetters
   const seedToken = _.sample(matrix.meta.firstLetters);
   // start our name with the seedToken
   const name = [seedToken];
-
+  // begin our traverse with seedToken row
   let row = matrix.chain[seedToken];
 
+  // while our return value is less than length
   for (let i = 1; i < length; i += 1) {
+    // grab weights from our current row
     const weights = row.weights;
+    // grab a token
     const token = getToken(row, _.random(0, weights[weights.length - 1]));
+    // add token to our name
     name.push(token);
 
+    // walk to the next row
     row = matrix.chain[token];
+
+    // if there happens to not be a row where we are looking just return what we have already.
+    if (!row) {
+      return name.join('');
+    }
   }
 
+  // join the tokens into a single string and return the name
   return name.join('');
 }
 
-
+/**
+ * Create a list of names of length n
+ * @param  {Array} list    [Array of strings to feed our algorithm]
+ * @param  {Number} [n=1]  [Number fo names to generate - default = 1]
+ * @return {Array}         [Array of generates names]
+ */
 export function generateNames(list, n = 1) {
   const names = [];
   // build the matrix from a list of names
