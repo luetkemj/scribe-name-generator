@@ -1,16 +1,9 @@
-{
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "rules": {
-    "global-require": 0,
-    "import/no-extraneous-dependencies": [
-      "error", {
-        "devDependencies": true,
-        "optionalDependencies": false,
-        "peerDependencies": false
-      }
-    ],
-    "no-else-return": 0,
-    "no-underscore-dangle": 0
-  }
-}
+parser: "babel-eslint"
+extends: "airbnb-base"
+rules:
+  # this rule causes problems with initialization, nock, and others
+  global-require: 0
+
+  # https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
+  # this rule causes problems with webpack config, nock, and others
+  import/no-extraneous-dependencies: [2, {}]
